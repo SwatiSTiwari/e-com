@@ -12,7 +12,7 @@ app.use(cors())
 app.use(express.json())
 
 // MongoDB Connection
-const mongoUri = process.env.MONGODB_URI || "mongodb://localhost:27017/ecommerce"
+const mongoUri = process.env.MONGODB_URI 
 mongoose
   .connect(mongoUri)
   .then(() => {
