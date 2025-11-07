@@ -2,33 +2,6 @@
 
 A full-stack e-commerce application built with React, Express.js, and MongoDB. Features a modern UI for browsing products, managing a shopping cart, and processing mock checkouts with order persistence.
 
-## Project Structure
-
-\`\`\`
-├── frontend/          # React application
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── Header.tsx
-│   │   │   ├── ProductGrid.tsx
-│   │   │   ├── ProductCard.tsx
-│   │   │   └── CartView.tsx
-│   │   ├── App.tsx
-│   │   └── App.css
-│   └── package.json
-├── backend/           # Express.js API server
-│   ├── models/
-│   │   ├── Product.js
-│   │   ├── Cart.js
-│   │   └── Order.js
-│   ├── routes/
-│   │   ├── products.js
-│   │   ├── cart.js
-│   │   └── checkout.js
-│   ├── server.js
-│   ├── package.json
-│   └── .env.example
-└── README.md
-\`\`\`
 
 ## Tech Stack
 
@@ -101,7 +74,7 @@ cd frontend
 npm run dev
 \`\`\`
 
-The app will be available at `http://localhost:5173`
+The app will be available at `http://localhost:3000`
 
 ## API Endpoints
 
