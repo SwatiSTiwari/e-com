@@ -1,71 +1,67 @@
 "use client"
+import { useState, useEffect } from "react"
 import { ShoppingCart } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 
-const PRODUCTS = [
-  {
-    id: 1,
-    name: "Wireless Headphones",
-    price: 129.99,
-    image: "/wireless-headphones.png",
-    description: "Premium noise-cancelling headphones",
-  },
-  {
-    id: 2,
-    name: "Smart Watch",
-    price: 299.99,
-    image: "/smartwatch-lifestyle.png",
-    description: "Advanced fitness tracking",
-  },
-  {
-    id: 3,
-    name: "USB-C Cable",
-    price: 19.99,
-    image: "/usb-c-cable.jpg",
-    description: "Fast charging cable",
-  },
-  {
-    id: 4,
-    name: "Portable Charger",
-    price: 49.99,
-    image: "/portable-charger-power-bank.jpg",
-    description: "20000mAh capacity",
-  },
-  {
-    id: 5,
-    name: "Bluetooth Speaker",
-    price: 79.99,
-    image: "/bluetooth-speaker.jpg",
-    description: "Waterproof and portable",
-  },
-  {
-    id: 6,
-    name: "Screen Protector",
-    price: 14.99,
-    image: "/screen-protector-tempered-glass.jpg",
-    description: "Anti-glare protection",
-  },
-  {
-    id: 7,
-    name: "Phone Stand",
-    price: 24.99,
-    image: "/phone-stand-holder.jpg",
-    description: "Adjustable and sturdy",
-  },
-  {
-    id: 8,
-    name: "Wireless Charger",
-    price: 39.99,
-    image: "/wireless-charger.png",
-    description: "Fast wireless charging",
-  },
-]
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001/api"
 
-export default function ProductGrid({ onAddToCart }) {
+interface Product {
+  id: number
+  name: string
+  price: number
+  description: string
+  image: string
+  category: string
+}
+
+interface ProductGridProps {
+  onAddToCart: (product: Product) => void
+}
+
+export default function ProductGrid({ onAddToCart }: ProductGridProps) {
+  const [products, setProducts] = useState<Product[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        console.log("Fetching products from:", `${API_BASE_URL}/products`)
+        const response = await fetch(`${API_BASE_URL}/products`)
+        console.log("Response status:", response.status)
+        const data = await response.json()
+        console.log("Products received:", data.length, data)
+        setProducts(data)
+      } catch (error) {
+        console.error("Error fetching products:", error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchProducts()
+  }, [])
+
+  if (loading) {
+    return (
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {[...Array(8)].map((_, i) => (
+          <Card key={i} className="overflow-hidden h-80 animate-pulse">
+            <div className="w-full h-48 bg-muted" />
+            <div className="p-4 space-y-3">
+              <div className="h-4 bg-muted rounded w-3/4" />
+              <div className="h-3 bg-muted rounded w-full" />
+              <div className="h-6 bg-muted rounded w-1/3" />
+            </div>
+          </Card>
+        ))}
+      </div>
+    )
+  }
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-      {PRODUCTS.map((product) => (
+      {products.map((product) => (
         <Card
           key={product.id}
           className="overflow-hidden hover:shadow-lg transition-shadow flex flex-col hover:translate-y-[-4px] duration-300"
